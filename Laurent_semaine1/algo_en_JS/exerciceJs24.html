@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="exercice algo3_4">
+<title>exercice algo 4.5</title> 
+</head>
+    <body>
+        <p>exercice algo 4.5</p>
+        <form method=post action="destination.php" name="formulaire" id="formulaire" onSubmit="imposition()">
+            Votre sexe :
+            <input type="radio" id="sexe" value="F"> F
+            <input type="radio" id="sexe" value="M"> M
+            <Br>
+            Votre âge <input type = "text" id = "age" value=""><br>
+            <input type = "submit" value = "Impôts" id="bouton"><br>
+        </form>
+        <script>
+            
+            let message = document.getElementById("bouton");
+            message.addEventListener("click", imposition);
+            let sexe = document.getElementById("sexe").value;
+            let age = parseInt(document.getElementById("age").value);
+
+            function imposition( ){
+                if (sexe = "M" && age>20){
+                    alert("Homme Imposable");
+                }
+                else if (sexe = "F" && (age>18 && age<35)){
+                    alert("Femme imposable");
+                }
+                else{
+                alert("Non imposable");
+                }
+            }
+            /* Le script ne fonctionne pas: affiche toujours "non imposable*/
+        </script>
+   </body>
+</html>
