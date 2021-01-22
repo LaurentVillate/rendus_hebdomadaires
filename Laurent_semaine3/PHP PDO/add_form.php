@@ -1,0 +1,134 @@
+
+<!Doctype html>
+<html lang="fr">      
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--intégration Boostrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Jarditou</title>
+    <!-- PHP Connexion à la base de données -->
+    <?php   
+     require "connexion_bdd.php"; // Inclusion de notre bibliothèque de fonctions
+
+     $db = connexionBase(); // Appel de la fonction de connexion
+     $pro_id = $_GET["pro_id"];
+   $requete = "SELECT * FROM produits WHERE pro_id=7";
+
+    $result = $db->query($requete);
+
+    // Renvoi de l'enregistrement sous forme d'un objet
+    $produit = $result->fetch(PDO::FETCH_OBJ);
+   ?>
+</head>
+<body>
+<!--Container boostrap-->
+    <div class="container">
+<!--header: logo et slogan
+        <header>
+            <div class="row">
+                <div class="col-6">
+                    <img img="fluid" src="src\img\jarditou_logo.jpg" alt="logo jarditou" title="logo jarditou" width="100%">
+                </div>
+                <div class="col-6 text-right">
+                    <h2>Tout le jardin</h2>
+                </div>
+            </div>
+        </header>-->
+<!--menu: liste non ordonnée 3 liens-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!--<a class="navbar-brand" href="#">jarditou.com</a>-->
+<!--toggler... bascule vers bouton hamburger -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+        </button>   
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+<!--Menu de navigation formulaire de recherche à droite-->
+            <ul class= "navbar-nav mr-auto">
+                <li class="nav-item active"><a  class="nav-link" href="index.html">Accueil</a></li>
+                <li class="nav-item"><a  class="nav-link" href="">Mon compte</a></li><!-- lien vers Mon compte à ajouter-->
+                <li class="nav-item"><a  class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        </nav>
+<!--formulaire -->
+        <form name="formliste" action="liste.php" method="post" id="formulaire">
+<!--formulaire première partie: coordonnées-->
+            <fieldset>
+<!--Récupération de l'id-->
+                <div class="form-group">
+                    <label for="nom">ID</label>
+                    <input type="text" class="form-control" name="ID" id="ID" value="<?php echo $produit->pro_id; ?>" >  
+                </div>
+<!--Récupération de la référence-->
+                <div class="form-group">
+                    <label for="prenom">Référence</label>
+                    <input type="text" class="form-control" name ="ref" id="ref" value="<?php echo $produit->pro_ref; ?>">
+                    <span style ="color: red" id="noPrenom"></span>      
+                </div>
+<!--Récupération de la catégorie-->
+                <div class="form-group">
+                    <label for="nom">Catégorie</label>
+                    <input type="text" class="form-control" name="cat" id="cat" value="<?php echo $produit->pro_cat_id; ?>" >  
+                    <!-- span pour message éventuel d'erreur lors de la validation du formulaire
+                    <span style ="color: red" id="noNom"></span> --> 
+                </div>
+<!--Récupération du libellé; lien vers détail-->
+                <div class="form-group">
+                    <label for="prenom">libellé</label>
+                    <input type="text" class="form-control" name ="libel" id="libel" value="<?php echo $produit->pro_libelle; ?>">
+                    <span style ="color: red" id="noPrenom"></span>      
+                </div>
+<!--Récupération de la description-->
+                <div class="form-group">
+                    <label for="nom">Description</label>
+                    <textarea class="form-control" id="question" rows="3"><?php echo $produit->pro_description; ?></textarea>
+<!--Récupération du prix-->
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prix</label>
+                    <input type="text" class="form-control" name ="prix" id="prix" value="<?php echo $produit->pro_prix; ?>">
+<!--Récupération du stock-->    
+                </div>
+                <div class="form-group">
+                    <label for="nom">Stock</label>
+                    <input type="text" class="form-control" name="stock" id="stock" value="<?php echo $produit->pro_stock; ?>" >  
+<!--Récupération de la couleur-->
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Couleur</label>
+                    <input type="text" class="form-control" name ="coul" id="coul" value="<?php echo $produit->pro_couleur; ?>">
+<!--checked du bouton oui ou non pour produit bloqué-->  
+                </div>
+                <div class="form-group">
+                    Produit bloqué: 
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="bloque" id="" value="oui" checked = "<?php $produit->pro_couleur != NULL; ?>">
+                    <label class="form-check-label" for="inlineRadio1">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="bloque" id="" value="non" checked = "<?php $produit->pro_couleur != NULL; ?>">
+                    <label class="form-check-label" for="inlineRadio1">Non</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    Date d'ajout : <?php echo $produit->pro_d_ajout; ?>
+                </div>  
+                <div class="form-group">
+                    Date de modification : <?php echo $produit->pro_d_modif; ?>
+                </div>
+<!-- liens vers modification ou retour à la liste des produits-->
+                <a href="ajout.php" class="btn btn-dark">Modifier</a><br><br>
+                <input type="submit" class="btn btn-dark" value="Retour à la liste" id="">
+            </fieldset>             
+        </form>
+        <br><br><br>
+<!--fin du formulaire--><!-- CRÉER UN LIEN: retour à la liste et un lien modifier (renvoyant au formulaire)-->
+        
+<!--javascript boostrap-->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
+
